@@ -18,12 +18,6 @@ app.use((req, res, next) => {
     next()
 })
 
-app.get('/hello', (req, res, next) => {
-    console.log('coucou hello');
-    res.status(200).json({status: 'hello', msg: 'doubleToz'});
-    next();
-})
-
 app.use('/settings', settingsController);
 
 app.use((req, res) => {

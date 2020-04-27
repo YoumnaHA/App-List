@@ -6,10 +6,6 @@ const settingService = require('../services/settings');
 
 const router = express.Router();
 
-//router.get('/hello', (req, res) => {
-//    res.status(200).json({status: 'OK'});
-//});
-
 //Mise à jour de l'adresse mail 
 router.post("/update/mail", (req, res) => {
     
@@ -18,6 +14,7 @@ router.post("/update/mail", (req, res) => {
     const mail2 = req.body.mail2;
     const user_id = 1;
 
+    //Appel au service pour la fonction updateMail
     settingService.updateMail({user_id, mail1, mail2}, (err, result) => {
         if (err) {
             res.status(err.code).json(err.error)
@@ -30,11 +27,14 @@ router.post("/update/mail", (req, res) => {
 
 // Mise à jour de du mot de passe
 router.post('/update/password', (req, res) => {
+
+    //Variables pour récupérer les paramètres
     const user_id = 2;
     const password1 = req.body.password1;
     const password2 = req.body.password2;
     const password3 = req.body.password3;
 
+    //Appel au service pour la fonction updatePassword
     settingService.updatePassword({user_id, password1, password2, password3}, (err, result) => {
         if (err) {
             res.status(err.code).json(err.error)
@@ -42,9 +42,6 @@ router.post('/update/password', (req, res) => {
             res.status(200).json(result);
         }
     });
-    
-
-    
 }); 
 
 module.exports = router; 

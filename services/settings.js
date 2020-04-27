@@ -10,12 +10,16 @@ function updateMail ({ user_id, mail1, mail2 }, callback) {
     //Gestion des erreurs
     //Vérification de format de l'adresse mail
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail1)) {
+        //Premier paramètre de la callback = err --> objet avec le code d'erreur et la cause
+        //Deuxième paramètre de la callbak = result --> undefined car on vérifie uniquement l'erreur
         callback({code: 400, error: { cause: 'L\'adresse mail n\'est pas valide'}}, undefined);
         return;
     } 
     
     //Vérification de la correspondance entre les 2 adresses mail
     if (mail1 != mail2) {
+        //Premier paramètre de la callback = err --> objet avec le code d'erreur et la cause
+        //Deuxième paramètre de la callbak = result --> undefined car on vérifie uniquement l'erreur
         callback({code: 400, error: { cause: 'Les adresses mail doivent être identiques'}}, undefined);
         return;
     }
@@ -24,16 +28,18 @@ function updateMail ({ user_id, mail1, mail2 }, callback) {
     const query = "UPDATE users SET usermail=$1 WHERE user_id=$2";
     utils.executeQuery(query, [mail1, user_id], (err, result) => {
         if (err) {
-            console.log('jfndkjfnsdfnsifnsdfn')
+            //Premier paramètre de la callback = err --> objet avec le code d'erreur et la cause
+            //Deuxième paramètre de la callbak = result --> undefined car on vérifie uniquement l'erreur
             callback({code: 500, error: {cause: 'Erreur serveur'}}, undefined);
         } else {
+            //Premier paramètre de la callback = err --> pas d'erreur ici donc undefined
+            //Deuxième paramètre de la callbak = result --> renvoie un message
             callback(undefined, {msg : `L'adresse mail ${mail1} a été mise à jour.`});
         }
     }); 
 }
 
 function updatePassword ({ user_id, password1, password2, password3 }, callback) {
-    //gestion des erreurs
     //Vérification que le mot de passe actuel correspond bien au compte associé
     utils.executeQuery("SELECT password FROM users where user_id=$2 and password=$1", [password1, user_id], (err, result) => {
         if (err) {
